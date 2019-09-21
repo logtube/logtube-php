@@ -1,0 +1,13 @@
+{
+    "name": "guoyk/logtube-php",
+    "description": "PHP SDK for Logtube",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Guo Y.K.",
+            "email": "hi@guoyk.net"
+        }
+    ],
+    "require": {}
+}
