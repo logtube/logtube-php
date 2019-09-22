@@ -1,13 +1,26 @@
 {
-    "name": "guoyk/logtube-php",
-    "description": "PHP SDK for Logtube",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Guo Y.K.",
-            "email": "hi@guoyk.net"
-        }
-    ],
-    "require": {}
+  "name": "guoyk/logtube-php",
+  "description": "PHP SDK for Logtube",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Guo Y.K.",
+      "email": "hi@guoyk.net"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Logtube\\": "src/logtube/"
+    },
+    "files": [
+      "src/logtube.php"
+    ]
+  },
+  "require": {
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8"
+  }
 }
