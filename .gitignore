@@ -8,5 +8,5 @@ composer.phar
 # PhpStorm
 .idea/
 
-# Test Logs
-/logs
+# Logs
+*.log

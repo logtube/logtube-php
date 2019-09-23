@@ -3,68 +3,46 @@
 
 namespace Logtube;
 
+use Logtube\Output\FileOutput;
 
-class Context
+/**
+ * Class Context
+ * @package Logtube
+ */
+class Context implements IOutput
 {
-    /**
-     * @var Context current context
-     */
-    private static $_current;
-
     /**
      * @var string project
      */
-    private $_project = "noname";
+    private $_project;
 
     /**
      * @var string env
      */
-    private $_env = "noname";
+    private $_env;
 
     /**
      * @var string crid
      */
-    private $_crid = "-";
+    private $_crid;
 
     /**
      * @var array
      */
-    private $_outputs = array();
-
-    public static function createCurrent()
-    {
-        if (Context::$_current == null) {
-            Context::$_current = new Context();
-        }
-    }
+    private $_outputs = [];
 
     /**
-     * @return Context
-     */
-    public static function current()
-    {
-        return Context::$_current;
-    }
-
-    /**
+     * Context constructor.
      * @param $opts array
      * @throws \Exception
      */
-    public function setup($opts)
+    public function __construct($opts)
     {
-        $this->_env = isset($opts["env"]) ? $opts["env"] : "noname";
-        $this->_project = isset($opts["project"]) ? $opts["project"] : "noname";
-        $this->_crid = isset($_GET["_crid"]) ?
-            $_GET["_crid"] : (isset($_SERVER["HTTP_X_CORRELATION_ID"]) ?
-                $_SERVER["HTTP_X_CORRELATION_ID"] :
-                bin2hex(random_bytes(8)
-                )
-            );
-        $this->_outputs = [];
-        if (isset($opts["file"])) {
-            $fo = new FileOutput($opts["file"]);
-            $fo->createDirs();
-            array_push($this->_outputs, $fo);
+        $this->_env = $opts["env"];
+        $this->_project = $opts["project"];
+        $this->_crid = $opts["crid"];
+        if (!empty($opts["file"])) {
+            array_push($this->_outputs, new FileOutput($opts["file"]));
         }
     }
 
@@ -92,26 +70,29 @@ class Context
         return $this->_crid;
     }
 
+    /**
+     * @param $topic string
+     * @return Event
+     * @throws \Exception
+     */
     public function event($topic)
     {
         if ($topic == null) {
-            $topic = "info";
+            $topic = "noname";
         }
         $e = new Event();
         $e->setProject($this->project());
         $e->setEnv($this->env());
         $e->setCrid($this->crid());
         $e->setTopic($topic);
-        $e->setSubmit(function ($event) {
-            $this->submit($event);
-        });
+        $e->setOutput($this);
         return $e;
     }
 
     /**
      * @param $event Event
      */
-    public function submit($event)
+    public function append($event)
     {
         foreach ($this->_outputs as $i => $output) {
             /** @var $output IOutput */

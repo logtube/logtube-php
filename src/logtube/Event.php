@@ -4,6 +4,10 @@
 namespace Logtube;
 
 
+/**
+ * Class Event
+ * @package Logtube
+ */
 class Event
 {
     /**
@@ -32,12 +36,12 @@ class Event
     public $_crid = "-";
 
     /**
-     * @var string
+     * @var null|string
      */
     public $_keyword = null;
 
     /**
-     * @var string
+     * @var null|string
      */
     public $_message = null;
 
@@ -47,39 +51,58 @@ class Event
     public $_extra = null;
 
     /**
-     * @var null|\Closure
+     * @var null|IOutput
      */
-    public $_submit = null;
+    private $_output = null;
 
+    /**
+     * Event constructor.
+     * @throws \Exception
+     */
     public function __construct()
     {
         $this->_timestamp = new \DateTime();
     }
 
+    /**
+     * @param $project string
+     */
     public function setProject($project)
     {
         if ($project == null) return;
         $this->_project = $project;
     }
 
+    /**
+     * @param $env string
+     */
     public function setEnv($env)
     {
         if ($env == null) return;
         $this->_env = $env;
     }
 
+    /**
+     * @param $topic string
+     */
     public function setTopic($topic)
     {
         if ($topic == null) return;
         $this->_topic = $topic;
     }
 
+    /**
+     * @param $crid string
+     */
     public function setCrid($crid)
     {
         if ($crid == null) return;
         $this->_crid = $crid;
     }
 
+    /**
+     * @param $keyword string
+     */
     public function addKeyword($keyword)
     {
         if ($this->_keyword == null) {
@@ -89,6 +112,10 @@ class Event
         }
     }
 
+    /**
+     * @param $key string
+     * @param $val mixed
+     */
     public function addExtra($key, $val)
     {
         if ($this->_extra == null) {
@@ -97,27 +124,38 @@ class Event
         $this->_extra[$key] = $val;
     }
 
+    /**
+     * @param $message string
+     */
     public function setMessage($message)
     {
         $this->_message = $message;
     }
 
-    public function setSubmit($submit)
+    /**
+     * @param $output IOutput
+     */
+    public function setOutput($output)
     {
-        $this->_submit = $submit;
+        $this->_output = $output;
     }
 
+    /**
+     * @return void
+     */
     public function submit()
     {
-        $submit = $this->_submit;
-        if ($submit == null) {
-            return;
+        if ($this->_output != null) {
+            $this->_output->append($this);
         }
-        $submit($this);
     }
 
     /////////////////////// chain messages
 
+    /**
+     * @param mixed ...$keyword
+     * @return $this
+     */
     public function k(...$keyword)
     {
         foreach ($keyword as $item) {
@@ -126,18 +164,30 @@ class Event
         return $this;
     }
 
+    /**
+     * @param $key string
+     * @param $val mixed
+     * @return $this
+     */
     public function x($key, $val)
     {
         $this->addExtra($key, $val);
         return $this;
     }
 
+    /**
+     * @param $message string
+     */
     public function msg($message)
     {
         $this->setMessage($message);
         $this->submit();
     }
 
+    /**
+     * @param $format string
+     * @param mixed ...$args
+     */
     public function msgf($format, ...$args)
     {
         $this->setMessage(sprintf($format, ...$args));

@@ -12,6 +12,7 @@ class ContextTest extends TestCase
         $opts = array(
             "project" => "testcase",
             "env" => "test",
+            "crid" => "xxxxxx",
             "file" => array(
                 "dir" => "logs",
                 "subdirs" => array(
@@ -21,8 +22,7 @@ class ContextTest extends TestCase
             )
         );
 
-        $ctx = new Context();
-        $ctx->setup($opts);
+        $ctx = new Context($opts);
 
         $this->assertEquals("testcase", $ctx->project());
         $this->assertEquals("test", $ctx->env());

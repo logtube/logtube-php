@@ -9,11 +9,11 @@ namespace Logtube;
  */
 interface IOutput
 {
+
     /**
-     * append event to this output
-     *
-     * @param $event
+     * @param $event Event
      * @return void
      */
     function append($event);
+
 }

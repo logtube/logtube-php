@@ -17,10 +17,15 @@
       "src/logtube.php"
     ]
   },
+  "config": {
+    "platform": {
+      "php": "7.0"
+    }
+  },
   "require": {
     "ext-json": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^8"
+    "phpunit/phpunit": "^6"
   }
 }

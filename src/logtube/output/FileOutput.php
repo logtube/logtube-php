@@ -1,36 +1,66 @@
 <?php
 
 
-namespace Logtube;
+namespace Logtube\Output;
+
+use Logtube\Event;
+use Logtube\IOutput;
 
 class FileOutput implements IOutput
 {
+    /**
+     * @var string
+     */
     private $_dir;
-    private $_subdirs;
+
+    /**
+     * @var array
+     */
+    private $_subdirs = [];
+
+    /**
+     * @var array
+     */
     private $_fds = [];
 
-    public function __construct($opts)
-    {
-        $this->_dir = $opts["dir"];
-        $this->_subdirs = $opts["subdirs"];
-    }
-
-    public function createDir($filename)
+    /**
+     * @param $filename string
+     */
+    public static function createDirIfNotExisted($filename)
     {
         if (!file_exists($filename)) {
             @mkdir($filename, 0755, true);
         }
     }
 
-    public function createDirs()
+    /**
+     * FileOutput constructor.
+     * @param $opts array
+     */
+    public function __construct($opts)
     {
-        $this->createDir($this->_dir);
+        $this->_dir = $opts["dir"];
+        if (!empty($opts["subdirs"])) {
+            $this->_subdirs = $opts["subdirs"];
+        }
+        $this->createDirs();
+    }
+
+    /**
+     * @return void
+     */
+    private function createDirs()
+    {
+        // create dir
+        self::createDirIfNotExisted($this->_dir);
+        // deduplicated subdirs
         $subdirs = [];
         foreach ($this->_subdirs as $key => $val) {
             $subdirs[$val] = true;
         }
+        // create subdirs
         foreach ($subdirs as $key => $val) {
-            $this->createDir($this->_dir . DIRECTORY_SEPARATOR . $key);
+            self::createDirIfNotExisted($this->_dir . DIRECTORY_SEPARATOR . $key);
         }
     }
 
@@ -41,11 +71,11 @@ class FileOutput implements IOutput
     private function fd($event)
     {
         $filename = $this->_dir . DIRECTORY_SEPARATOR;
-        if (isset($this->_subdirs[$event->_topic])) {
+        if (!empty($this->_subdirs[$event->_topic])) {
             $filename = $filename . DIRECTORY_SEPARATOR . $this->_subdirs[$event->_topic];
         }
         $filename = $filename . DIRECTORY_SEPARATOR . $event->_env . "." . $event->_topic . "." . $event->_project . "." . $event->_timestamp->format("Y-m-d") . ".log";
-        if (!isset($this->_fds[$filename])) {
+        if (empty($this->_fds[$filename])) {
             $this->_fds[$filename] = fopen($filename, "a");
         }
         return $this->_fds[$filename];
