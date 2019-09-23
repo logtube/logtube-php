@@ -37,7 +37,7 @@ class Logtube
      */
     public static function setup($opts)
     {
-        if ($opts == null) {
+        if (empty($opts)) {
             self::$_context = new Context([
                 "project" => "noname",
                 "env" => "noname",
@@ -162,24 +162,25 @@ class Logtube
 
 }
 
+// initialize a dummy context
 Logtube::setup(null);
 
 function ILog($keyword, $format, ...$args)
 {
-    Logtube::log("info", $keyword, $format, ...$args);
+    Logtube::info($keyword, $format, ...$args);
 }
 
 function WLog($keyword, $format, ...$args)
 {
-    Logtube::log("warn", $keyword, $format, ...$args);
+    Logtube::warn($keyword, $format, ...$args);
 }
 
 function ELog($keyword, $format, ...$args)
 {
-    Logtube::log("err", $keyword, $format, ...$args);
+    Logtube::error($keyword, $format, ...$args);
 }
 
 function DLog($keyword, $format, ...$args)
 {
-    Logtube::log("debug", $keyword, $format, ...$args);
+    Logtube::debug($keyword, $format, ...$args);
 }

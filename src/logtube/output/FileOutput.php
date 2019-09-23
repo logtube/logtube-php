@@ -29,7 +29,7 @@ class FileOutput implements IOutput
     public static function createDirIfNotExisted($filename)
     {
         if (!file_exists($filename)) {
-            @mkdir($filename, 0755, true);
+            mkdir($filename, 0755, true);
         }
     }
 
