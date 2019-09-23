@@ -1,6 +1,7 @@
 {
-  "name": "guoyk/logtube-php",
+  "name": "logtube/logtube",
   "description": "PHP SDK for Logtube",
+  "version": "1.0.0",
   "type": "library",
   "license": "MIT",
   "authors": [
