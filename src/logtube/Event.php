@@ -65,7 +65,7 @@ class Event
     }
 
     /**
-     * @param $project string
+     * @param string $project
      */
     public function setProject($project)
     {
@@ -74,7 +74,7 @@ class Event
     }
 
     /**
-     * @param $env string
+     * @param string $env
      */
     public function setEnv($env)
     {
@@ -83,7 +83,7 @@ class Event
     }
 
     /**
-     * @param $topic string
+     * @param string $topic
      */
     public function setTopic($topic)
     {
@@ -92,7 +92,7 @@ class Event
     }
 
     /**
-     * @param $crid string
+     * @param string $crid
      */
     public function setCrid($crid)
     {
@@ -101,7 +101,7 @@ class Event
     }
 
     /**
-     * @param $keyword string
+     * @param string $keyword
      */
     public function addKeyword($keyword)
     {
@@ -116,8 +116,8 @@ class Event
     }
 
     /**
-     * @param $key string
-     * @param $val mixed
+     * @param string $key
+     * @param mixed $val 
      */
     public function addExtra($key, $val)
     {
@@ -128,7 +128,7 @@ class Event
     }
 
     /**
-     * @param $message string
+     * @param string $message
      */
     public function setMessage($message)
     {
@@ -136,7 +136,7 @@ class Event
     }
 
     /**
-     * @param $output IOutput
+     * @param IOutput $output
      */
     public function setOutput($output)
     {
@@ -168,8 +168,8 @@ class Event
     }
 
     /**
-     * @param $key string
-     * @param $val mixed
+     * @param string $key
+     * @param mixed $val
      * @return $this
      */
     public function x($key, $val)
@@ -179,7 +179,7 @@ class Event
     }
 
     /**
-     * @param $message string
+     * @param string $message
      */
     public function msg($message)
     {
@@ -188,7 +188,7 @@ class Event
     }
 
     /**
-     * @param $format string
+     * @param string $format
      * @param mixed ...$args
      */
     public function msgf($format, ...$args)

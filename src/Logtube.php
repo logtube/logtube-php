@@ -13,6 +13,8 @@ class Logtube
     private static $_context;
 
     /**
+     * extract crid from request
+     * 
      * @return string
      * @throws Exception
      */
@@ -30,7 +32,9 @@ class Logtube
     }
 
     /**
-     * @param $opts null|array
+     * initialize the Logtube
+     * 
+     * @param null|array $opts
      * @throws Exception
      */
     public static function setup($opts)
@@ -52,6 +56,8 @@ class Logtube
     }
 
     /**
+     * get the internal context
+     * 
      * @return Context
      */
     public static function context()
@@ -60,6 +66,8 @@ class Logtube
     }
 
     /**
+     * get the project name
+     * 
      * @return string
      */
     public static function project()
@@ -68,6 +76,8 @@ class Logtube
     }
 
     /**
+     * get the environment name
+     * 
      * @return string
      */
     public static function env()
@@ -76,6 +86,8 @@ class Logtube
     }
 
     /**
+     * get crid
+     * 
      * @return string
      */
     public static function crid()
@@ -84,22 +96,28 @@ class Logtube
     }
 
     /**
-     * @var keyword string
+     * add default keywords
+     * 
+     * @var string ...$keyword
      */
     public static function addDefaultKeyword(...$keyword)
     {
         self::context()->addDefaultKeyword(...$keyword);
     }
 
+    /**
+     * clear default keywords
+     */
     public static function clearDefaultKeywords()
     {
         self::context()->clearDefaultKeywords();
     }
 
     /**
-     * @param $topic string
+     * create a log event with given topic
+     * 
+     * @param string $topic
      * @return \Logtube\Event
-     * @throws \Exception
      */
     public static function event($topic)
     {
@@ -107,15 +125,18 @@ class Logtube
     }
 
     /**
-     * @param $topic string
-     * @param $keyword array|string
-     * @param $format string
+     * create and commit a plain text log event
+     * 
+     * @param string $topic
+     * @param array|string|null $keyword
+     * @param string $format
      * @param mixed ...$args
-     *
-     * @throws \Exception
      */
     public static function log($topic, $keyword, $format, ...$args)
     {
+        if (empty($keyword)) {
+            $keyword = [];
+        }
         // wrap $keyword as array
         if (!is_array($keyword)) {
             $keyword = array($keyword);
@@ -128,10 +149,9 @@ class Logtube
     }
 
     /**
-     * @param $keyword
-     * @param $format
+     * @param string|array|null $keyword
+     * @param string $format
      * @param mixed ...$args
-     * @throws Exception
      */
     public static function info($keyword, $format, ...$args)
     {
@@ -139,10 +159,9 @@ class Logtube
     }
 
     /**
-     * @param $keyword
-     * @param $format
+     * @param string|array|null $keyword
+     * @param string $format
      * @param mixed ...$args
-     * @throws Exception
      */
     public static function warn($keyword, $format, ...$args)
     {
@@ -150,10 +169,9 @@ class Logtube
     }
 
     /**
-     * @param $keyword
-     * @param $format
+     * @param string|array|null $keyword
+     * @param string $format
      * @param mixed ...$args
-     * @throws Exception
      */
     public static function error($keyword, $format, ...$args)
     {
@@ -161,10 +179,9 @@ class Logtube
     }
 
     /**
-     * @param $keyword
-     * @param $format
+     * @param string|array|null $keyword
+     * @param string $format
      * @param mixed ...$args
-     * @throws Exception
      */
     public static function debug($keyword, $format, ...$args)
     {
@@ -175,21 +192,41 @@ class Logtube
 // initialize a dummy context
 Logtube::setup(null);
 
+/**
+ * @param string|array|null $keyword
+ * @param string $format
+ * @param mixed ...$args
+ */
 function ILog($keyword, $format, ...$args)
 {
     Logtube::info($keyword, $format, ...$args);
 }
 
+/**
+ * @param string|array|null $keyword
+ * @param string $format
+ * @param mixed ...$args
+ */
 function WLog($keyword, $format, ...$args)
 {
     Logtube::warn($keyword, $format, ...$args);
 }
 
+/**
+ * @param string|array|null $keyword
+ * @param string $format
+ * @param mixed ...$args
+ */
 function ELog($keyword, $format, ...$args)
 {
     Logtube::error($keyword, $format, ...$args);
 }
 
+/**
+ * @param string|array|null $keyword
+ * @param string $format
+ * @param mixed ...$args
+ */
 function DLog($keyword, $format, ...$args)
 {
     Logtube::debug($keyword, $format, ...$args);

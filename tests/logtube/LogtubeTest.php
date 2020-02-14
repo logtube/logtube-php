@@ -20,7 +20,7 @@ class LogtubeTest extends TestCase
             ]
         ]);
 
-        Logtube::addDefaultKeyword("dft-keyword,dft-keyword")
+        Logtube::addDefaultKeyword("dft-keyword1", "dft-keyword2");
 
         ILog("", "hello %s", "world");
         ILog("hello,world", "hello %s", "world");

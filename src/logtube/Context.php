@@ -38,7 +38,7 @@ class Context implements IOutput
 
     /**
      * Context constructor.
-     * @param $opts array
+     * @param array $opts
      * @throws \Exception
      */
     public function __construct($opts)
@@ -78,7 +78,7 @@ class Context implements IOutput
     /**
      * add default keywords to all events
      * 
-     * @var keyword string keyword to add
+     * @param string ...$keyword keyword to add
      */
     public function addDefaultKeyword(...$keyword)
     {
@@ -116,7 +116,7 @@ class Context implements IOutput
     }
 
     /**
-     * @param $event Event
+     * @param Event $event
      */
     public function append($event)
     {
