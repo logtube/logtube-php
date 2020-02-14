@@ -23,6 +23,7 @@ class ContextTest extends TestCase
         );
 
         $ctx = new Context($opts);
+        $ctx->addDefaultKeyword("dft-keyword")
 
         $this->assertEquals("testcase", $ctx->project());
         $this->assertEquals("test", $ctx->env());

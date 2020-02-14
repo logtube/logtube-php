@@ -105,6 +105,9 @@ class Event
      */
     public function addKeyword($keyword)
     {
+        if (empty($keyword)) {
+            return;
+        }
         if ($this->_keyword == null) {
             $this->_keyword = $keyword;
         } else {
@@ -193,5 +196,4 @@ class Event
         $this->setMessage(sprintf($format, ...$args));
         $this->submit();
     }
-
 }

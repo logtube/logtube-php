@@ -18,7 +18,9 @@ Logtube PHP SDK
 ## 使用方法
 
 1. `composer require logtube/logtube`
-2. 在项目尽可能早的位置初始化 Logtubeo
+
+2. 在项目尽可能早的位置初始化 Logtube
+
     ```php
     Logtube::setup([
         "project" => "testcase", // 项目名
@@ -32,14 +34,24 @@ Logtube PHP SDK
         ]
     ]);
     ```
- 3. 使用
+
+3. 使用
+
     ```php
+    Logtube::addDefaultKeyword("keyword1", "keyword2"); // 提前为所有日志添加默认的关键字
+
     ILog("hello,world", "hello %s", "world"); // info 主题输出，第一个参数为关键词，第二个为格式，第三个为参数
     ELog("hello,world", "hello %s", "world"); // err
     WLog("hello,world", "hello %s", "world"); // warn
     DLog("hello,world", "hello %s", "world"); // debug
     ```
-    
+
+4. 在合适的地方使用如下代码，将 `CRID` 发送给调用方
+
+    ```php
+    header("X-Correlation-ID:". Logtube::crid());
+    ```
+
 ## Credits
 
 Guo Y.K., MIT License

@@ -20,13 +20,11 @@ class Logtube
     {
         return empty($_GET["_crid"])
             ?
-            (
-            empty($_SERVER["HTTP_X_CORRELATION_ID"])
+            (empty($_SERVER["HTTP_X_CORRELATION_ID"])
                 ?
                 bin2hex(random_bytes(8))
                 :
-                $_SERVER["HTTP_X_CORRELATION_ID"]
-            )
+                $_SERVER["HTTP_X_CORRELATION_ID"])
             :
             $_GET["_crid"];
     }
@@ -83,6 +81,19 @@ class Logtube
     public static function crid()
     {
         return self::context()->crid();
+    }
+
+    /**
+     * @var keyword string
+     */
+    public static function addDefaultKeyword(...$keyword)
+    {
+        self::context()->addDefaultKeyword(...$keyword);
+    }
+
+    public static function clearDefaultKeywords()
+    {
+        self::context()->clearDefaultKeywords();
     }
 
     /**
@@ -159,7 +170,6 @@ class Logtube
     {
         self::log("debug", $keyword, $format, ...$args);
     }
-
 }
 
 // initialize a dummy context

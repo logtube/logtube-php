@@ -32,6 +32,11 @@ class Context implements IOutput
     private $_outputs = [];
 
     /**
+     * @var array
+     */
+    private $_keywords = [];
+
+    /**
      * Context constructor.
      * @param $opts array
      * @throws \Exception
@@ -71,6 +76,24 @@ class Context implements IOutput
     }
 
     /**
+     * add default keywords to all events
+     * 
+     * @var keyword string keyword to add
+     */
+    public function addDefaultKeyword(...$keyword)
+    {
+        array_push($this->_keywords, ...$keyword);
+    }
+
+    /**
+     * clear default keywords
+     */
+    public function clearDefaultKeywords()
+    {
+        $this->_keyword = [];
+    }
+
+    /**
      * @param $topic string
      * @return Event
      * @throws \Exception
@@ -86,6 +109,9 @@ class Context implements IOutput
         $e->setCrid($this->crid());
         $e->setTopic($topic);
         $e->setOutput($this);
+        foreach ($this->_keywords as $k) {
+            $e->addKeyword($k);
+        }
         return $e;
     }
 
