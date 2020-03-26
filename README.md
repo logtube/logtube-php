@@ -30,6 +30,7 @@ Logtube PHP SDK
             "subdirs" => [               // 可以指定某些主题日志输出到某个子目录中
                 "err" => "important",
                 "warn" => "important",
+                "info" => "important",
             ]
         ]
     ]);
