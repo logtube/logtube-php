@@ -201,7 +201,7 @@ class Logtube
     /**
      * 输出一条标准格式的 x-access 日志
      */
-    public static function startAccessLog()
+    public static function beginAccessLog()
     {
         $e = self::event("x-access");
         $e->x("method", $_SERVER["REQUEST_METHOD"]);

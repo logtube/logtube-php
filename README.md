@@ -27,16 +27,21 @@ Logtube PHP SDK
         "env" => "test",         // 环境名
         "file" => [
             "dir" => "logs",     // 日志目录
-            "subdirs" => [               // 可以指定某些主题日志输出到某个子目录中
-                "err" => "important",
-                "warn" => "important",
-                "info" => "important",
+            "subdirs" => [               // 指定某些主题日志输出到 xlog 子目录，便于 Filebeat 收集
+                "err" => "xlog",
+                "warn" => "xlog",
+                "info" => "xlog",
+                "x-access" => "xlog"
             ]
         ]
     ]);
     ```
+   
+3. 在主要代码前使用 `Logtube::beginAccessLog()` 开始 访问日志记录
 
-3. 使用
+4. 在主要代码后使用 `Logtube::endAccessLog()` 结束 访问日志记录
+
+5. 在业务代码中使用
 
     ```php
     Logtube::addDefaultKeyword("keyword1", "keyword2"); // 提前为所有日志添加默认的关键字
@@ -47,7 +52,7 @@ Logtube PHP SDK
     DLog("hello,world", "hello %s", "world"); // debug
     ```
 
-4. 在合适的地方使用如下代码，将 `CRID` 发送给调用方
+6. 在合适的地方使用如下代码，将 `CRID` 发送给调用方
 
     ```php
     header("X-Correlation-ID:". Logtube::crid());
