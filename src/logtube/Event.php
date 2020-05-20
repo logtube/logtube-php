@@ -117,7 +117,7 @@ class Event
 
     /**
      * @param string $key
-     * @param mixed $val 
+     * @param mixed $val
      */
     public function addExtra($key, $val)
     {
@@ -151,6 +151,11 @@ class Event
         if ($this->_output != null) {
             $this->_output->append($this);
         }
+    }
+
+    public function commit()
+    {
+        $this->submit();
     }
 
     /////////////////////// chain messages

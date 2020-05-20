@@ -13,8 +13,18 @@ class Logtube
     private static $_context;
 
     /**
+     * @var \Logtube\Event
+     */
+    private static $_accessEvent;
+
+    /**
+     * @var integer
+     */
+    private static $_accessEventStartTime;
+
+    /**
      * extract crid from request
-     * 
+     *
      * @return string
      * @throws Exception
      */
@@ -33,7 +43,7 @@ class Logtube
 
     /**
      * initialize the Logtube
-     * 
+     *
      * @param null|array $opts
      * @throws Exception
      */
@@ -57,7 +67,7 @@ class Logtube
 
     /**
      * get the internal context
-     * 
+     *
      * @return Context
      */
     public static function context()
@@ -67,7 +77,7 @@ class Logtube
 
     /**
      * get the project name
-     * 
+     *
      * @return string
      */
     public static function project()
@@ -77,7 +87,7 @@ class Logtube
 
     /**
      * get the environment name
-     * 
+     *
      * @return string
      */
     public static function env()
@@ -87,7 +97,7 @@ class Logtube
 
     /**
      * get crid
-     * 
+     *
      * @return string
      */
     public static function crid()
@@ -97,7 +107,7 @@ class Logtube
 
     /**
      * add default keywords
-     * 
+     *
      * @var string ...$keyword
      */
     public static function addDefaultKeyword(...$keyword)
@@ -115,7 +125,7 @@ class Logtube
 
     /**
      * create a log event with given topic
-     * 
+     *
      * @param string $topic
      * @return \Logtube\Event
      */
@@ -126,7 +136,7 @@ class Logtube
 
     /**
      * create and commit a plain text log event
-     * 
+     *
      * @param string $topic
      * @param array|string|null $keyword
      * @param string $format
@@ -186,6 +196,40 @@ class Logtube
     public static function debug($keyword, $format, ...$args)
     {
         self::log("debug", $keyword, $format, ...$args);
+    }
+
+    /**
+     * 输出一条标准格式的 x-access 日志
+     */
+    public static function startAccessLog()
+    {
+        $e = self::event("x-access");
+        $e->x("method", $_SERVER["REQUEST_METHOD"]);
+        $e->x("host", $_SERVER["HTTP_HOST"]);
+        $e->x("query", $_SERVER["QUERY_STRING"]);
+        if (isset($_SERVER["HTTP_USERTOKEN"])) {
+            $e->x("header_user_token", $_SERVER["HTTP_USERTOKEN"]);
+        }
+        if (isset($_SERVER["HTTP_X_DEFINED_APPINFO"])) {
+            $e->x("header_app_info", $_SERVER["HTTP_X_DEFINED_APPINFO"]);
+        }
+        if (isset($_SERVER["HTTP_X_DEFINED_VERINFO"])) {
+            $e->x("header_ver_info", $_SERVER["HTTP_X_DEFINED_VERINFO"]);
+        }
+        self::$_accessEventStartTime = microtime() / 1000;
+        self::$_accessEvent = $e;
+    }
+
+    public static function endAccessLog()
+    {
+        if (self::$_accessEvent) {
+            $e = self::$_accessEvent;
+            $e->x("duration", microtime() / 100 - self::$_accessEventStartTime);
+            $e->x("response_size", ob_get_length() || 0);
+            $e->x("status", http_response_code());
+            $e->commit();
+            self::$_accessEvent = null;
+        }
     }
 }
 
