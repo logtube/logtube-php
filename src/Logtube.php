@@ -216,7 +216,7 @@ class Logtube
         if (isset($_SERVER["HTTP_X_DEFINED_VERINFO"])) {
             $e->x("header_ver_info", $_SERVER["HTTP_X_DEFINED_VERINFO"]);
         }
-        self::$_accessEventStartTime = microtime() / 1000;
+        self::$_accessEventStartTime = intval(microtime()) / 1000;
         self::$_accessEvent = $e;
     }
 
@@ -224,7 +224,7 @@ class Logtube
     {
         if (self::$_accessEvent) {
             $e = self::$_accessEvent;
-            $e->x("duration", microtime() / 100 - self::$_accessEventStartTime);
+            $e->x("duration", intval(microtime()) / 100 - self::$_accessEventStartTime);
             $e->x("response_size", ob_get_length() || 0);
             $e->x("status", http_response_code());
             $e->commit();
