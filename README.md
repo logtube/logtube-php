@@ -50,6 +50,7 @@ Logtube PHP SDK v1.2.0
     ELog("hello,world", "hello %s", "world"); // err
     WLog("hello,world", "hello %s", "world"); // warn
     DLog("hello,world", "hello %s", "world"); // debug
+    FLog("hello,world", "hello %s", "world"); // fatal
     ```
 
 6. 在合适的地方使用如下代码，将 `CRID` 发送给调用方
@@ -57,6 +58,23 @@ Logtube PHP SDK v1.2.0
     ```php
     header("X-Correlation-ID:". Logtube::crid());
     ```
+   
+## 预置模块
+
+### 审计
+
+```
+$committer = Logtube::audit();
+$committer->setUserCode("202002020")->setUserName("xxxx")->commit();
+```
+
+### 性能统计
+
+```
+$committer = Logtube::perf()->setAction("submit-order");
+// 完成一些耗时的操作
+$committer.commit();
+```
 
 ## Credits
 

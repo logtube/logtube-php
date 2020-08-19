@@ -1,6 +1,9 @@
 <?php
 
+use Logtube\Committer\AuditCommitter;
+use Logtube\Committer\PerfCommitter;
 use Logtube\Context;
+use Logtube\Event;
 
 /**
  * Class Logtube
@@ -13,7 +16,7 @@ class Logtube
     private static $_context;
 
     /**
-     * @var \Logtube\Event
+     * @var Event
      */
     private static $_accessEvent;
 
@@ -127,7 +130,8 @@ class Logtube
      * create a log event with given topic
      *
      * @param string $topic
-     * @return \Logtube\Event
+     * @return Event
+     * @throws
      */
     public static function event($topic)
     {
@@ -193,9 +197,35 @@ class Logtube
      * @param string $format
      * @param mixed ...$args
      */
+    public static function fatal($keyword, $format, ...$args)
+    {
+        self::log("fatal", $keyword, $format, ...$args);
+    }
+
+    /**
+     * @param string|array|null $keyword
+     * @param string $format
+     * @param mixed ...$args
+     */
     public static function debug($keyword, $format, ...$args)
     {
         self::log("debug", $keyword, $format, ...$args);
+    }
+
+    /**
+     * @return AuditCommitter
+     */
+    public static function audit()
+    {
+        return new AuditCommitter(self::event("x-audit"));
+    }
+
+    /**
+     * @return PerfCommitter
+     */
+    public static function perf()
+    {
+        return new PerfCommitter(self::event("x-perf"));
     }
 
     /**
@@ -265,6 +295,16 @@ function WLog($keyword, $format, ...$args)
 function ELog($keyword, $format, ...$args)
 {
     Logtube::error($keyword, $format, ...$args);
+}
+
+/**
+ * @param string|array|null $keyword
+ * @param string $format
+ * @param mixed ...$args
+ */
+function FLog($keyword, $format, ...$args)
+{
+    Logtube::fatal($keyword, $format, ...$args);
 }
 
 /**
