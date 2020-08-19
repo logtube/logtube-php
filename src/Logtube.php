@@ -225,7 +225,8 @@ class Logtube
         if (self::$_accessEvent) {
             $e = self::$_accessEvent;
             $e->x("duration", intval(microtime()) / 100 - self::$_accessEventStartTime);
-            $e->x("response_size", ob_get_length() || 0);
+            $response_size = ob_get_length();
+            $e->x("response_size", $response_size ? $response_size : 0);
             $e->x("status", http_response_code());
             $e->commit();
             self::$_accessEvent = null;
