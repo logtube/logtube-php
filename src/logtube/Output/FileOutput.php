@@ -91,7 +91,7 @@ class FileOutput implements IOutput
     {
         $fd = $this->fd($event);
         $line = "[" . $event->_timestamp->format("Y-m-d H:i:s.v O") . "] ";
-        $struct = ["c" => $event->_crid];
+        $struct = ["c" => $event->_crid, "s" => $event->_crsrc];
         if ($event->_keyword != null) {
             $struct["k"] = $event->_keyword;
         }

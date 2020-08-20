@@ -45,6 +45,26 @@ class Logtube
     }
 
     /**
+     * extract crsrc from request
+     *
+     * @return string
+     * @throws Exception
+     */
+    private static function extractCrsrc()
+    {
+        return empty($_GET["_crsrc"])
+            ?
+            (empty($_SERVER["HTTP_X_CORRELATION_SRC"])
+                ?
+                ""
+                :
+                $_SERVER["HTTP_X_CORRELATION_SRC"])
+            :
+            $_GET["_crsrc"];
+    }
+
+
+    /**
      * initialize the Logtube
      *
      * @param null|array $opts
@@ -57,6 +77,7 @@ class Logtube
                 "project" => "noname",
                 "env" => "noname",
                 "crid" => "-",
+                "crsrc" => "-",
             ]);
             return;
         }
@@ -64,6 +85,7 @@ class Logtube
             "project" => empty($opts["project"]) ? "noname" : $opts["project"],
             "env" => empty($opts["env"]) ? "noname" : $opts["env"],
             "crid" => self::extractCrid(),
+            "crsrc" => self::extractCrsrc(),
             "file" => empty($opts["file"]) ? null : $opts["file"],
         ]);
     }
@@ -245,6 +267,9 @@ class Logtube
         }
         if (isset($_SERVER["HTTP_X_DEFINED_VERINFO"])) {
             $e->x("header_ver_info", $_SERVER["HTTP_X_DEFINED_VERINFO"]);
+        }
+        if (isset($_SERVER["REQUEST_URI"])) {
+            $e->x("path", parse_url($_SERVER["REQUEST_URI"]['path']));
         }
         self::$_accessEventStartTime = intval(microtime()) / 1000;
         self::$_accessEvent = $e;

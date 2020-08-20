@@ -3,6 +3,7 @@
 
 namespace Logtube;
 
+use Exception;
 use Logtube\Output\FileOutput;
 
 /**
@@ -27,6 +28,11 @@ class Context implements IOutput
     private $_crid;
 
     /**
+     * @var string
+     */
+    private $_crsrc;
+
+    /**
      * @var array
      */
     private $_outputs = [];
@@ -39,13 +45,14 @@ class Context implements IOutput
     /**
      * Context constructor.
      * @param array $opts
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct($opts)
     {
         $this->_env = $opts["env"];
         $this->_project = $opts["project"];
         $this->_crid = $opts["crid"];
+        $this->_crsrc = $opts["crsrc"];
         if (!empty($opts["file"])) {
             array_push($this->_outputs, new FileOutput($opts["file"]));
         }
@@ -76,8 +83,16 @@ class Context implements IOutput
     }
 
     /**
+     * @return mixed|string
+     */
+    public function crsrc()
+    {
+        return $this->_crsrc;
+    }
+
+    /**
      * add default keywords to all events
-     * 
+     *
      * @param string ...$keyword keyword to add
      */
     public function addDefaultKeyword(...$keyword)
@@ -96,7 +111,7 @@ class Context implements IOutput
     /**
      * @param $topic string
      * @return Event
-     * @throws \Exception
+     * @throws Exception
      */
     public function event($topic)
     {
@@ -107,6 +122,7 @@ class Context implements IOutput
         $e->setProject($this->project());
         $e->setEnv($this->env());
         $e->setCrid($this->crid());
+        $e->setCrsrc($this->crsrc());
         $e->setTopic($topic);
         $e->setOutput($this);
         foreach ($this->_keywords as $k) {

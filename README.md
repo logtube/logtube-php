@@ -59,6 +59,16 @@ Logtube PHP SDK v1.2.0
     header("X-Correlation-ID:". Logtube::crid());
     ```
    
+7. 发起 HTTP 调用的时候，通过 `X-Correlation-Src` 头表明自己身份，便于日志追踪
+
+    ```php
+   $curl = curl_init();
+   curl_setopt($curl, CURLOPT_HTTPHEADER, array([
+       'Content-Type:'.'application/json',
+       'X-Correlation-Src:'.Logtube::project(),
+   ]));
+    ```
+   
 ## 预置模块
 
 ### 审计

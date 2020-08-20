@@ -4,6 +4,9 @@
 namespace Logtube;
 
 
+use DateTime;
+use Exception;
+
 /**
  * Class Event
  * @package Logtube
@@ -11,7 +14,7 @@ namespace Logtube;
 class Event
 {
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     public $_timestamp;
 
@@ -36,6 +39,11 @@ class Event
     public $_crid = "-";
 
     /**
+     * @var string
+     */
+    public $_crsrc = "-";
+
+    /**
      * @var null|string
      */
     public $_keyword = null;
@@ -57,11 +65,11 @@ class Event
 
     /**
      * Event constructor.
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct()
     {
-        $this->_timestamp = new \DateTime();
+        $this->_timestamp = new DateTime();
     }
 
     /**
@@ -98,6 +106,16 @@ class Event
     {
         if ($crid == null) return;
         $this->_crid = $crid;
+    }
+
+
+    /**
+     * @param $crsrc string
+     */
+    public function setCrsrc($crsrc)
+    {
+        if ($crsrc == null) return;
+        $this->_crsrc = $crsrc;
     }
 
     /**
