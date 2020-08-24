@@ -269,7 +269,7 @@ class Logtube
             $e->x("header_ver_info", $_SERVER["HTTP_X_DEFINED_VERINFO"]);
         }
         if (isset($_SERVER["REQUEST_URI"])) {
-            $e->x("path", parse_url($_SERVER["REQUEST_URI"]['path']));
+            $e->x("path", parse_url($_SERVER["REQUEST_URI"])['path']);
         }
         self::$_accessEventStartTime = intval(microtime()) / 1000;
         self::$_accessEvent = $e;
