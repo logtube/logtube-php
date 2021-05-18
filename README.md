@@ -32,7 +32,8 @@ Logtube PHP SDK v1.2.0
                 "warn" => "xlog",
                 "info" => "xlog",
                 "x-access" => "xlog"
-            ]
+            ],
+            "balance" => 5, // 随机均衡写入 xx.1.log, xx.2.log, xx.3.log, xx.4.log, xx.5.log，最小可配置为1。
         ]
     ]);
     ```

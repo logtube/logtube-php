@@ -13,6 +13,7 @@ class ContextTest extends TestCase
             "project" => "testcase",
             "env" => "test",
             "crid" => "xxxxxx",
+            "crsrc" => "-",
             "file" => array(
                 "dir" => "logs",
                 "subdirs" => array(
