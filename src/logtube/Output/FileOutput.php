@@ -5,6 +5,7 @@ namespace Logtube\Output;
 
 use Logtube\Event;
 use Logtube\IOutput;
+use Exception;
 
 class FileOutput implements IOutput
 {
@@ -19,9 +20,12 @@ class FileOutput implements IOutput
     private $_subdirs = [];
 
     /**
-     * @var array
+     * @var int 写入文件的均衡数量。
+     *
+     * 日志文件均衡地写入 xxx.1.log, xxx.2.log, ... xxx.$_balance.log
+     * 默认这个值等于 5
      */
-    private $_fds = [];
+    private $_balance;
 
     /**
      * @param $filename string
@@ -43,6 +47,7 @@ class FileOutput implements IOutput
         if (!empty($opts["subdirs"])) {
             $this->_subdirs = $opts["subdirs"];
         }
+        $this->_balance = isset($opts["balance"]) ? $opts["balance"] : 5;
         $this->createDirs();
     }
 
@@ -65,20 +70,44 @@ class FileOutput implements IOutput
     }
 
     /**
-     * @param $event Event
-     * @return resource
+     * @param Event $event
+     * @param int $selectedBalance
+     * @return string
      */
-    private function fd($event)
+    private function logfile($event, $selectedBalance)
     {
         $filename = $this->_dir . DIRECTORY_SEPARATOR;
         if (!empty($this->_subdirs[$event->_topic])) {
             $filename = $filename . DIRECTORY_SEPARATOR . $this->_subdirs[$event->_topic];
         }
-        $filename = $filename . DIRECTORY_SEPARATOR . $event->_env . "." . $event->_topic . "." . $event->_project . "." . $event->_timestamp->format("Y-m-d") . ".log";
-        if (empty($this->_fds[$filename])) {
-            $this->_fds[$filename] = fopen($filename, "a");
+        return $filename . DIRECTORY_SEPARATOR . $event->_env . "." . $event->_topic . "." . $event->_project . "." . $event->_timestamp->format("Y-m-d") . ".$selectedBalance.log";
+    }
+
+    /**
+     * 写入消息到文件
+     *
+     * @param string $message
+     * @param Event $event
+     * @return void
+     * @throws Exception 当文件写入失败的时候抛出异常。
+     */
+    private function writeLog($message, $event)
+    {
+        if ($this->_balance <= 1) {
+            $fileName = $this->logfile($event, 1);
+            $result = file_put_contents($fileName, $message . "\n", FILE_APPEND | LOCK_EX);
+        } else {
+            for ($i = 0; $i < 3; $i++) {
+                $fileName = $this->logfile($event, mt_rand(1, $this->_balance));
+                $result = file_put_contents($fileName, $message . "\n", FILE_APPEND | LOCK_EX);
+                if (false !== $result) {
+                    break;
+                }
+            }
         }
-        return $this->_fds[$filename];
+        if (false === $result) {
+            throw new Exception("[logtube] Failed to write to file \"$fileName\".");
+        }
     }
 
     /**
@@ -89,7 +118,6 @@ class FileOutput implements IOutput
      */
     function append($event)
     {
-        $fd = $this->fd($event);
         $line = "[" . $event->_timestamp->format("Y-m-d H:i:s.v O") . "] ";
         $struct = ["c" => $event->_crid, "s" => $event->_crsrc];
         if ($event->_keyword != null) {
@@ -102,6 +130,6 @@ class FileOutput implements IOutput
         if ($event->_message != null) {
             $line = $line . " " . $event->_message;
         }
-        fputs($fd, $line . "\n");
+        $this->writeLog($line, $event);
     }
 }
