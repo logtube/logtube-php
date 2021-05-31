@@ -87,6 +87,21 @@ $committer = Logtube::perf()->setAction("submit-order");
 $committer.commit();
 ```
 
+### 定时任务
+
+```php
+$committer = Logtube::job();
+$committer->setJobName("sleep_1s_job")  // 设置任务名
+   ->setJobId("jobxxxxxx-xxxxx-xxxxx")  // 设置任务ID
+   ->addKeyword("sleep")                // 添加关键字
+   ->markStart();                       // 输出任务开始日志
+
+// 执行任务
+
+$committer->setResult(true, "sleep result is good")   // 标记任务执行是否成功 并 记录任意结果字符串，true 代表成功
+   ->markEnd();                                       // 输出任务结束日志
+```
+
 ## Credits
 
 Guo Y.K., MIT License

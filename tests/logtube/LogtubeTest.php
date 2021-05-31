@@ -66,6 +66,17 @@ class LogtubeTest extends TestCase
         sleep(1);
         $committer->submit();
 
+        $committer = Logtube::job();
+        $committer->setJobName("sleep_1s_job")
+            ->setJobId("jobxxxxxx-xxxxx-xxxxx")
+            ->addKeyword("sleep")
+            ->markStart();
+
+        // do something
+
+        $committer->setResult(true, "sleep well")
+            ->markEnd();
+
         $this->assertTrue(true);
     }
 

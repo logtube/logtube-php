@@ -1,6 +1,7 @@
 <?php
 
 use Logtube\Committer\AuditCommitter;
+use Logtube\Committer\JobCommitter;
 use Logtube\Committer\PerfCommitter;
 use Logtube\Context;
 use Logtube\Event;
@@ -248,6 +249,14 @@ class Logtube
     public static function perf()
     {
         return new PerfCommitter(self::event("x-perf"));
+    }
+
+    /**
+     * @return JobCommitter
+     */
+    public static function job()
+    {
+        return new JobCommitter(self::event("job"));
     }
 
     /**
