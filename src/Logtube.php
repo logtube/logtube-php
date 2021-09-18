@@ -266,7 +266,7 @@ class Logtube
     {
         $e = self::event("x-access");
         $e->x("method", $_SERVER["REQUEST_METHOD"]);
-        $e->x("host", $_SERVER["HTTP_HOST"]);
+        $e->x("host", $_SERVER["HTTP_HOST"] ?? '');
         $e->x("query", $_SERVER["QUERY_STRING"]);
         if (isset($_SERVER["HTTP_USERTOKEN"])) {
             $e->x("header_user_token", $_SERVER["HTTP_USERTOKEN"]);
@@ -280,7 +280,7 @@ class Logtube
         if (isset($_SERVER["REQUEST_URI"])) {
             $e->x("path", parse_url($_SERVER["REQUEST_URI"])['path']);
         }
-        self::$_accessEventStartTime = intval(microtime()) / 1000;
+        self::$_accessEventStartTime = intval(microtime(true) * 1000);
         self::$_accessEvent = $e;
     }
 
@@ -288,7 +288,7 @@ class Logtube
     {
         if (self::$_accessEvent) {
             $e = self::$_accessEvent;
-            $e->x("duration", intval(microtime()) / 100 - self::$_accessEventStartTime);
+            $e->x("duration", intval(microtime(true) * 1000) - self::$_accessEventStartTime);
             $response_size = ob_get_length();
             $e->x("response_size", $response_size ? $response_size : 0);
             $e->x("status", http_response_code());
