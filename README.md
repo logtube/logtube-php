@@ -38,6 +38,16 @@ Logtube PHP SDK v1.2.0
     ]);
     ```
    
+   如果有需要，可以移除 `file` 字段，使用 `single` 字段启动单文件输出
+
+   ```php
+   Logtube::setup([
+        "project" => "testcase", // 项目名
+        "env" => "test",         // 环境名
+        "single" => "/tmp/php.log.fifo"
+    ]);
+   ```
+   
 3. 在主要代码前使用 `Logtube::beginAccessLog()` 开始 访问日志记录
 
 4. 在主要代码后使用 `Logtube::endAccessLog()` 结束 访问日志记录

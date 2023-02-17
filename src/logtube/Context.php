@@ -5,6 +5,7 @@ namespace Logtube;
 
 use Exception;
 use Logtube\Output\FileOutput;
+use Logtube\Output\SingleOutput;
 
 /**
  * Class Context
@@ -55,6 +56,9 @@ class Context implements IOutput
         $this->_crsrc = $opts["crsrc"];
         if (!empty($opts["file"])) {
             array_push($this->_outputs, new FileOutput($opts["file"]));
+        }
+        if (isset($opts["single"]) && !empty($opts["single"])) {
+            array_push($this->_outputs, new SingleOutput($opts["single"]));
         }
     }
 
