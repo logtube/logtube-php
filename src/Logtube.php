@@ -88,7 +88,7 @@ class Logtube
             "crid" => self::extractCrid(),
             "crsrc" => self::extractCrsrc(),
             "file" => (isset($opts["file"]) && !empty($opts["file"])) ? $opts["file"] : null,
-            "simple" => (isset($opts["simple"]) && !empty($opts["simple"])) ? $opts["simple"] : null,
+            "single" => (isset($opts["single"]) && !empty($opts["single"])) ? $opts["single"] : null,
         ]);
     }
 
