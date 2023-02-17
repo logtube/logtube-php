@@ -54,7 +54,7 @@ class Context implements IOutput
         $this->_project = $opts["project"];
         $this->_crid = $opts["crid"];
         $this->_crsrc = $opts["crsrc"];
-        if (!empty($opts["file"])) {
+        if (isset($opts["file"]) && !empty($opts["file"])) {
             array_push($this->_outputs, new FileOutput($opts["file"]));
         }
         if (isset($opts["single"]) && !empty($opts["single"])) {

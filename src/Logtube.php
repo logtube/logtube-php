@@ -87,7 +87,8 @@ class Logtube
             "env" => empty($opts["env"]) ? "noname" : $opts["env"],
             "crid" => self::extractCrid(),
             "crsrc" => self::extractCrsrc(),
-            "file" => empty($opts["file"]) ? null : $opts["file"],
+            "file" => (isset($opts["file"]) && !empty($opts["file"])) ? $opts["file"] : null,
+            "simple" => (isset($opts["simple"]) && !empty($opts["simple"])) ? $opts["simple"] : null,
         ]);
     }
 
