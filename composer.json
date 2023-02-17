@@ -1,7 +1,7 @@
 {
   "name": "logtube/logtube",
   "description": "PHP SDK for Logtube",
-  "version": "dev-1.6.0",
+  "version": "1.6.0",
   "type": "library",
   "license": "MIT",
   "authors": [

@@ -38,4 +38,5 @@ class SingleOutput implements IOutput
         $message = json_encode($j) . "\n";
         file_put_contents($this->_file, $message, FILE_APPEND);
     }
+
 }

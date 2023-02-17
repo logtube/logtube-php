@@ -166,8 +166,11 @@ class Event
      */
     public function submit()
     {
-        if ($this->_output != null) {
-            $this->_output->append($this);
+        try {
+            if ($this->_output != null) {
+                $this->_output->append($this);
+            }
+        } catch (Exception $e) {
         }
     }
 
