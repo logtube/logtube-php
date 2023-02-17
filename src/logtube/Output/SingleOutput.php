@@ -2,9 +2,8 @@
 
 namespace Logtube\Output;
 
-use Logtube\Event;
+use DateTime;
 use Logtube\IOutput;
-use Exception;
 
 class SingleOutput implements IOutput
 {
@@ -21,7 +20,7 @@ class SingleOutput implements IOutput
     function append($event)
     {
         $j = [
-            "timestamp" => $event->_timestamp->format("Y-m-d H:i:s.v O"),
+            "timestamp" => $event->_timestamp->format(DateTime::ISO8601),
             "topic" => $event->_topic,
             "crid" => $event->_crid,
             "crsrc" => $event->_crsrc,
