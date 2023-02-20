@@ -62,7 +62,10 @@ class Context implements IOutput
             array_push($this->_outputs, new SingleOutput($opts["single"]));
         }
         if (isset($opts["fifodir"]) && !empty($opts["fifodir"])) {
-            array_push($this->_outputs, new FIFODirOutput($opts["fifodir"]));
+            array_push($this->_outputs, new FIFODirOutput(
+                $opts["fifodir"],
+                isset($opts["fifodir_nb"]) && !empty($opts["fifodir_nb"])
+            ));
         }
     }
 
