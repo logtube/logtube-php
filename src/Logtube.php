@@ -90,6 +90,7 @@ class Logtube
             "file" => (isset($opts["file"]) && !empty($opts["file"])) ? $opts["file"] : null,
             "single" => (isset($opts["single"]) && !empty($opts["single"])) ? $opts["single"] : null,
             "fifodir" => (isset($opts["fifodir"]) && !empty($opts["fifodir"])) ? $opts["fifodir"] : null,
+            "fifodir_nb" => (isset($opts["fifodir_nb"]) && !empty($opts["fifodir_nb"])) ? $opts["fifodir_nb"] : false,
         ]);
     }
 
