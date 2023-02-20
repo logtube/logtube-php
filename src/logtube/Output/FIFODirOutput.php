@@ -10,12 +10,16 @@ class FIFODirOutput implements IOutput
 {
     private $_file = false;
 
-    private $_nb = false;
+    private $_nb;
 
+    /**
+     * @param $_dir string
+     * @param $nb bool
+     */
     public function __construct($_dir, $nb)
     {
         $_dir = rtrim($_dir, DIRECTORY_SEPARATOR);
-        $_nb = $nb;
+        $this->_nb = $nb;
 
         $files = [];
         try {
