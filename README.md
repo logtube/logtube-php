@@ -54,8 +54,7 @@ Logtube PHP SDK v1.2.0
    Logtube::setup([
         "project" => "testcase", // 项目名
         "env" => "test",         // 环境名
-        "fifodir" => "/tmp/php-log",
-        "fifodir_nb" => true     // 使用 NON_BLOCKING 打开 FIFO
+        "fifodir" => "/tmp/php-log"
    ])
    ```
    

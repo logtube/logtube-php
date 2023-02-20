@@ -10,12 +10,9 @@ class FIFODirOutput implements IOutput
 {
     private $_file = false;
 
-    private $_nb = false;
-
-    public function __construct($_dir, $nb)
+    public function __construct($_dir)
     {
         $_dir = rtrim($_dir, DIRECTORY_SEPARATOR);
-        $_nb = $nb;
 
         $files = [];
         try {
@@ -66,14 +63,6 @@ class FIFODirOutput implements IOutput
             $j["message"] = $event->_message;
         }
         $message = json_encode($j) . "\n";
-
-        if ($this->_nb) {
-            $fd = fopen($this->_file, 'a');
-            stream_set_blocking($fd, false);
-            fputs($fd, $message);
-            fclose($fd);
-            return;
-        }
 
         file_put_contents($this->_file, $message, FILE_APPEND);
     }
