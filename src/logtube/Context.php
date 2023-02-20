@@ -4,6 +4,7 @@
 namespace Logtube;
 
 use Exception;
+use Logtube\Output\FIFODirOutput;
 use Logtube\Output\FileOutput;
 use Logtube\Output\SingleOutput;
 
@@ -59,6 +60,9 @@ class Context implements IOutput
         }
         if (isset($opts["single"]) && !empty($opts["single"])) {
             array_push($this->_outputs, new SingleOutput($opts["single"]));
+        }
+        if (isset($opts["fifodir"]) && !empty($opts["fifodir"])) {
+            array_push($this->_outputs, new FIFODirOutput($opts["fifodir"]));
         }
     }
 

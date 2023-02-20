@@ -48,6 +48,16 @@ Logtube PHP SDK v1.2.0
     ]);
    ```
    
+   或者使用 `fifodir` 使用一个目录内的任意数量的 FIFO 文件
+
+   ```php
+   Logtube::setup([
+        "project" => "testcase", // 项目名
+        "env" => "test",         // 环境名
+        "fifodir" => "/tmp/php-log"   
+   ])
+   ```
+   
 3. 在主要代码前使用 `Logtube::beginAccessLog()` 开始 访问日志记录
 
 4. 在主要代码后使用 `Logtube::endAccessLog()` 结束 访问日志记录
