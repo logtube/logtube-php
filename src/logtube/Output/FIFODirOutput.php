@@ -79,7 +79,7 @@ class FIFODirOutput implements IOutput
             return;
         }
 
-        file_put_contents($this->_file, $message, FILE_APPEND);
+        file_put_contents($this->_file, $message, FILE_APPEND | LOCK_EX);
     }
 
 }
