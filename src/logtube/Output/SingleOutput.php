@@ -34,7 +34,7 @@ class SingleOutput implements IOutput
         if ($event->_message != null) {
             $j["message"] = $event->_message;
         }
-        $message = json_encode($j) . "\n";
+        $message = json_encode($j, JSON_UNESCAPED_UNICODE) . "\n";
         file_put_contents($this->_file, $message, FILE_APPEND);
     }
 

@@ -126,7 +126,7 @@ class FileOutput implements IOutput
         if ($event->_extra != null) {
             $struct["x"] = $event->_extra;
         }
-        $line = $line . json_encode([$struct]);
+        $line = $line . json_encode([$struct], JSON_UNESCAPED_UNICODE);
         if ($event->_message != null) {
             $line = $line . " " . $event->_message;
         }
