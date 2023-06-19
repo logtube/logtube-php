@@ -59,6 +59,20 @@ Logtube PHP SDK v1.2.0
    ])
    ```
    
+   **最佳实践**
+
+   如果 `single` 和 `fifodir` 同时存在，SDK 会通过 检查 `fifodir` 目录是否存在而自动切换
+
+   ```php
+   Logtube::setup([
+        "project" => "testcase", // 项目名
+        "env" => "test",         // 环境名
+        "single" => "php://stdout",
+        "fifodir" => "/tmp/php-log",
+        "fifodir_nb" => true     // 使用 NON_BLOCKING 打开 FIFO
+   ])
+   ```
+   
 3. 在主要代码前使用 `Logtube::beginAccessLog()` 开始 访问日志记录
 
 4. 在主要代码后使用 `Logtube::endAccessLog()` 结束 访问日志记录
