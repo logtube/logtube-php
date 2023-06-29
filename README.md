@@ -1,6 +1,6 @@
 # logtube-php
 
-Logtube PHP SDK v1.2.0
+Logtube PHP SDK v1.7.0
 
 ## 设计
 
