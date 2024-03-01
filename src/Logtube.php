@@ -87,6 +87,7 @@ class Logtube
             "env" => empty($opts["env"]) ? "noname" : $opts["env"],
             "crid" => self::extractCrid(),
             "crsrc" => self::extractCrsrc(),
+            "logsock" => (isset($opts["logsock"]) && !empty($opts["logsock"])) ? $opts["logsock"] : null,
             "file" => (isset($opts["file"]) && !empty($opts["file"])) ? $opts["file"] : null,
             "single" => (isset($opts["single"]) && !empty($opts["single"])) ? $opts["single"] : null,
             "fifodir" => (isset($opts["fifodir"]) && !empty($opts["fifodir"])) ? $opts["fifodir"] : null,
