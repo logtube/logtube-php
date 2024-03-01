@@ -48,7 +48,7 @@ Logtube PHP SDK v1.7.0
     ]);
    ```
    
-   或者使用 `fifodir` 使用一个目录内的任意数量的 FIFO 文件
+   使用 `fifodir` 使用一个目录内的任意数量的 FIFO 文件
 
    ```php
    Logtube::setup([
@@ -56,6 +56,16 @@ Logtube PHP SDK v1.7.0
         "env" => "test",         // 环境名
         "fifodir" => "/tmp/php-log",
         "fifodir_nb" => true     // 使用 NON_BLOCKING 打开 FIFO
+   ])
+   ```
+
+   使用 `logsock` 字段，使用一个 UNIX 域套接字
+
+   ```php
+   Logtube::setup([
+     "project" => "testcase", // 项目名
+     "env" => "test",         // 环境名
+     "logsock" => "/tmp/php-log.sock"
    ])
    ```
    

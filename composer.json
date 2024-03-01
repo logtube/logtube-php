@@ -1,13 +1,13 @@
 {
   "name": "logtube/logtube",
   "description": "PHP SDK for Logtube",
-  "version": "1.7.0",
+  "version": "1.8.0-rc1",
   "type": "library",
   "license": "MIT",
   "authors": [
     {
-      "name": "Guo Y.K.",
-      "email": "hi@guoyk.net"
+      "name": "Yanke Guo",
+      "email": "hi@yankeguo.com"
     }
   ],
   "autoload": {

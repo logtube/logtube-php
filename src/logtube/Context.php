@@ -7,6 +7,7 @@ use Exception;
 use Logtube\Output\FIFODirOutput;
 use Logtube\Output\FileOutput;
 use Logtube\Output\SingleOutput;
+use Logtube\Output\LogSockOutput;
 
 /**
  * Class Context
@@ -58,7 +59,9 @@ class Context implements IOutput
         if (isset($opts["file"]) && !empty($opts["file"])) {
             array_push($this->_outputs, new FileOutput($opts["file"]));
         }
-        if (isset($opts["fifodir"]) && !empty($opts["fifodir"]) && file_exists($opts["fifodir"])) {
+        if (isset($opts["logsock"]) && !empty($opts["logsock"])) {
+            array_push($this->_outputs, new LogSockOutput($opts["logsock"]));
+        } else if (isset($opts["fifodir"]) && !empty($opts["fifodir"]) && file_exists($opts["fifodir"])) {
             array_push($this->_outputs, new FIFODirOutput(
                 $opts["fifodir"],
                 isset($opts["fifodir_nb"]) && !empty($opts["fifodir_nb"])
@@ -115,7 +118,7 @@ class Context implements IOutput
      */
     public function clearDefaultKeywords()
     {
-        $this->_keyword = [];
+        $this->_keywords = [];
     }
 
     /**
