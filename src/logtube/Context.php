@@ -59,7 +59,7 @@ class Context implements IOutput
         if (isset($opts["file"]) && !empty($opts["file"])) {
             array_push($this->_outputs, new FileOutput($opts["file"]));
         }
-        if (isset($opts["logsock"]) && !empty($opts["logsock"])) {
+        if (isset($opts["logsock"]) && !empty($opts["logsock"]) && file_exists($opts["logsock"])) {
             array_push($this->_outputs, new LogSockOutput($opts["logsock"]));
         } else if (isset($opts["fifodir"]) && !empty($opts["fifodir"]) && file_exists($opts["fifodir"])) {
             array_push($this->_outputs, new FIFODirOutput(
