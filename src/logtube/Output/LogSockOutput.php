@@ -3,7 +3,6 @@
 namespace Logtube\Output;
 
 use DateTime;
-use Exception;
 use Logtube\IOutput;
 
 class LogSockOutput implements IOutput
@@ -50,6 +49,5 @@ class LogSockOutput implements IOutput
         $message = json_encode($j, JSON_UNESCAPED_UNICODE) . "\n";
 
         fwrite($this->_fd, $message);
-        fsync($this->_fd);
     }
 }
